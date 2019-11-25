@@ -1,0 +1,2 @@
+pyttsx3==2.71
+SpeechRecognition==3.8.1
