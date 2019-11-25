@@ -1,8 +1,8 @@
-.vs/*
+.vs
 
-x64/*
+x64
 
-x86/*
+x86
 
 *.obj
 
@@ -17,7 +17,3 @@ debug.log
 __pycache__
 
 .idea
-
-not_in_use
-
-**/files
