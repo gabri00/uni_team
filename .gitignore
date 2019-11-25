@@ -6,13 +6,11 @@ x86
 
 *.obj
 
-*.vcxproj
+#*.vcxproj
 
-*.vcxproj.user
+#*.vcxproj.user
 
-*.vcxproj.filters
-
-debug.log
+#*.vcxproj.filters
 
 __pycache__
 
