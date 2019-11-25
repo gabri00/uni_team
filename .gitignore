@@ -1,0 +1,13 @@
+-.vs/
+
+-x64/
+
+-x86/
+
+-*.obj
+
+-*.vcxproj
+
+-*.vcxproj.user
+
+-*.vcxproj.filters
