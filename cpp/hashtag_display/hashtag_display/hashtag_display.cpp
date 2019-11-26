@@ -1,24 +1,27 @@
 #include <iostream>
-#include <iomanip>
 
 using namespace std;
 
 #define HASHTAG	'#'
+#define HEADER	"*****\tWELCOME TO THE HASHTAG PARTY\t*****\n\n"
+
 
 int main()
 {
+	cout << HEADER;
+
 	int n, max_raw;
 
 	cout << "Enter the number to display (only integers): ";
 	cin >> dec >> n;
 
-	if (cin.fail())
+	while (cin.fail())
 	{
-		cout << "errore, sono consentiti solo valori numerici\n";
-		return -1;
+		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		cout << "Error, only numeric values are allowed, retry: ";
+		cin >> dec >> n;
 	}
-
-
 
 	if (n >= 1000)
 	{
@@ -32,7 +35,7 @@ int main()
 		return 0;
 	}
 
-	cout << "Enter the maximum amount per raw: ";
+	cout << "Enter the maximum amount of '#' per raw: ";
 	cin >> dec >> max_raw;
 
 	while (max_raw == 0)
@@ -40,6 +43,7 @@ int main()
 		cout << "at least one element per raw, enter a valid number: ";
 		cin.sync();
 		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		cin >> dec >> max_raw;
 	}
 
