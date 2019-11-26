@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Origine.cpp">
+    <ClCompile Include="hashtag_display.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>
