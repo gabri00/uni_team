@@ -9,7 +9,7 @@ int Computer ;
 char Player ;
 char stop ;
 
-
+//hello 
 void Intro (){
     cout << "Welcome! Insert your name \n";
     getline(cin, PlayerName) ;
