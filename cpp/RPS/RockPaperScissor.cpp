@@ -21,8 +21,10 @@ void InputPlayer()
 
     Player = toupper(Player);
 
-    while ((Player != 'R') && (Player != 'P') && (Player != 'S'))
+    while ((Player != 'R' && Player != 'P' && Player != 'S') || !cin)
 	{
+		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         cout << PlayerName << " are you doumb? Just choose R, P or S: ";
         cin >> Player;
     }
@@ -31,11 +33,11 @@ void InputPlayer()
 void InputComputer()
 {
 	srand(time(NULL));	//random seed
-    Computer = rand() % 3;
+	Computer = rand() % 3;
 
-    if (Computer == 0)		Computer = 'R';
-    else if (Computer == 1) Computer = 'P';
-    else if (Computer == 2) Computer = 'S';
+	if		(Computer == 0)	Computer = 'R';
+	else if (Computer == 1) Computer = 'P';
+	else if (Computer == 2) Computer = 'S';
 }
 
 void WinCheck()
@@ -51,34 +53,35 @@ void WinCheck()
         cout << "TIE\n";*/
     
 	//WIN
-    if ((Computer == 'R') && (Player == 'P'))	cout << PlayerName << " WIN\n";
-    if ((Computer == 'R') && (Player == 'S'))	cout << "Computer WIN\n";
+	if		(Computer == 'R' && Player == 'P')	cout << PlayerName << " WIN\n";
+	else if (Computer == 'R' && Player == 'S')	cout << "Computer WIN\n";
+
+	else if (Computer == 'P' && Player == 'S')	cout << PlayerName << " WIN\n";
+	else if (Computer == 'P' && Player == 'R')	cout << "Computer WIN\n";
     
-    if ((Computer == 'P') && (Player == 'R'))	cout << "Computer WIN\n";
-    if ((Computer == 'P') && (Player == 'S'))	cout <<PlayerName<< " WIN\n";
-    
-    if ((Computer == 'S') && (Player == 'R'))	cout <<PlayerName<< " WIN\n";
-    if ((Computer == 'S') && (Player == 'P'))	cout << "Computer WIN\n";
+	else if (Computer == 'S' && Player == 'R')	cout << PlayerName << " WIN\n";
+	else if (Computer == 'S' && Player == 'P')	cout << "Computer WIN\n";
 }
 
-int main() {
+int main()
+{
 	string PlayerName;
 	int Computer;
 	char Player, stop;
 
-    Intro();
+	Intro();
 
-    do
+	do
 	{
-    InputPlayer();
-    InputComputer();
-    WinCheck();
+	InputPlayer();
+	InputComputer();
+	WinCheck();
 
-    cout << "If you want to continue digit y\n";
-    cin >> stop;
+	cout << "If you want to continue digit yes(y): ";
+	cin >> stop;
 
-    stop = toupper(stop);
+	stop = toupper(stop);
     } while(stop == 'Y');
 
-    return 0;
+	return 0;
 }
