@@ -1,22 +1,40 @@
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
+#include <random>
+#include <string>
 
-using namespace std;
+#define HEADER	"Gioco della roulette sviluppato in C++ tanto perche' non avevo un cazzo da fare\n"
+
+std::string line(60, '-');
 
 int main()
 {
-	int capitale = 100;
-	int puntata = 1;	// > 0
-	int scommesso;	//da 0 a 36
-	int uscito;		//da 0 a 36
+	using namespace std;
 
-	cout << "Benvenuto alla roulette, il tuo capitale iniziale è " << capitale << "$" << endl;
+	#ifndef HEADER
+	#define HEADER
+	#endif
+
+	cout << HEADER << line << '\n';
+
+	int capitale = 100,	//parte da 100
+		puntata = 1,	// > 0
+		scommesso,		// da 0 a 36
+		uscito;			// da 0 a 36
+
+	cout << "Benvenuto alla roulette, il tuo capitale iniziale e' " << capitale << "$\n";
 
 	while (puntata > 0)
 	{
-		cout << "Quanto denaro si desidera puntare (inserisci un numero negativo per abbandonare): ";
+		cout << "Quanto denaro si desidera puntare (inserisci un numero negativo o una lettera per abbandonare): ";
 		cin >> puntata;
+
+		while (capitale - puntata < 0)
+		{
+			cin.sync();
+			cin.clear();
+			cout << "Non puoi puntare più del tuo capitale attuale, inserire una puntata valida: ";
+			cin >> puntata;
+		}
 
 		capitale -= puntata;
 
@@ -29,24 +47,28 @@ int main()
 			cin >> scommesso;
 		}
 
-		uscito = rand() / 37;
+		auto rand = std::uniform_int_distribution<int>(1, 36);
+		std::mt19937 rng = std::mt19937(std::random_device{}());
+		uscito = rand(rng);
 
-		cout << "uscito il numero " << uscito << endl;
+		cout << "uscito il numero " << uscito << '\n';
 
 		if (scommesso == uscito)
 		{
 			capitale += puntata * 2;
-			cout << "Hai vinto, nice job!" << endl;
+			cout << "Hai vinto, nice job!\n";
 		}
-		else	cout << "Hai perso lezzino, ritenta!" << endl;
+		else	cout << "\033[0;31mHai perso lezzino, ritenta!\033[0m\n";
 
-		cout << "Il tuo capitale è ora di: " << capitale << "$" << endl;
+		cout << "Il tuo capitale e' ora di: " << capitale << "$\n";
 
 		if (capitale <= 0)
 		{
-			cout << "Hai finito i soldi pooovero, bye bye" << endl;
+			cout << "Hai finito i soldi pooovero, bye bye\n";
 			puntata = -1;
 		}
-		else	cout << "Punta ancora!" << endl;
+		else	cout << "Punta ancora!\n";
 	}
+
+	return 0;
 }
