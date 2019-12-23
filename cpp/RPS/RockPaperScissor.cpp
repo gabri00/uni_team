@@ -3,10 +3,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <limits>
 
 using namespace std;
 
-void Intro()
+inline void Intro()
 {
     cout << "Welcome! Insert your name \n";
     getline(cin, PlayerName);
@@ -73,14 +74,22 @@ int main()
 
 	do
 	{
-	InputPlayer();
-	InputComputer();
-	WinCheck();
+		InputPlayer();
+		InputComputer();
+		WinCheck();
 
-	cout << "If you want to continue digit yes(y): ";
-	cin >> stop;
+		cout << "If you want to continue digit yes(y): ";
+		cin >> stop;
 
-	stop = toupper(stop);
+		if (cin.fail())
+		{
+			cout << "If you want to continue digit yes(y): ";
+			cin.sync();
+			cin.clear();
+			cin >> stop;
+		}
+
+		stop = toupper(stop);
     } while(stop == 'Y');
 
 	return 0;
