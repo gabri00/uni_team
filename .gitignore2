@@ -1,0 +1,32 @@
+# VS Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+[Xx]64/
+[Xx]86/
+[Bb]uild/
+[Bb]in/
+[Oo]bj/
+
+# VS 2015 cache/options directory
+.vs/
+
+# Other
+*.meta
+*.obj
+*.tmp
+*.tmp_proj
+*.log
+.builds
+
+# Visual Studio cache files
+*.[Cc]ache
+# keep track of directories ending in .cache
+!*.[Cc]ache/
+
+# Node
+node_modules/
+
+# Visual Studio 6 workspace options file
+*.opt
