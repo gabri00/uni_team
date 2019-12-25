@@ -1,18 +1,37 @@
-#Visual Studio
+# VS Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+[Xx]64/
+[Xx]86/
+[Bb]uild/
+[Bb]in/
+[Oo]bj/
 
-.vs
+# VS 2015 cache/options directory
+.vs/
 
-x64
-
-x86
-
+# Other
+*.meta
 *.obj
+*.tmp
+*.tmp_proj
+*.log
+.builds
 
+# Visual Studio cache files
+*.[Cc]ache
+# keep track of directories ending in .cache
+!*.[Cc]ache/
 
-#PyCharm
+# Node
+node_modules/
 
-__pycache__
+# Visual Studio 6 workspace options file
+*.opt
 
+# PyCharm
 .idea
-
 .DS_Store
+__pycache__
