@@ -1,50 +1,42 @@
-//  main.cpp
-//  Impiccato1.0
-
 //  Created by Lorenzo Montanaro on 25/01/2020.
 //  Copyright © 2020 Lorenzo Montanaro. All rights reserved.
 
 
 //LIBRERIE
-#include <iostream>     //import for basic i/o system
-#include <string.h>     //import for strlen()
+#include <iostream>
+#include <string>
 //#include <stdlib.h>   //import for clear screen functionality
 
 //STANDARD NAMESPACE
 using namespace std;
 
-//VARIABILI
-const int x = 10;
+//MACRO DEFINITION
+#define ROWS    7
+#define COLS    5
 
-char parola[x];
-char parolaN[x];
 
 struct screen
 {
-    char Draw[x][x] = {
-    {'_','_','_','_','_','_','_','_','_',' '},
-    {'|',' ',' ',' ',' ',' ',' ',' ','|',' '},
-    {'|',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-    {'|',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-    {'|',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-    {'|',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-    {'|',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-    {'|',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-    {'|',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-    {'|','_','_','_','_','_',' ',' ',' ',' '}
-    };
+    char draw[ROWS][COLS] = {
+    {'_', '_', '_', '_', ' '},
+    {'|', ' ', ' ', '|', ' '},
+    {'|', ' ', ' ', ' ', ' '},
+    {'|', ' ', ' ', ' ', ' '},
+    {'|', ' ', ' ', ' ', ' '},
+    {'|', ' ', ' ', ' ', ' '},
+    {'|', '_', '_', '_', '_'} };
 
-    void Disegno()
+    void disegna()
     {
-        for (int r = 0; r < x; r++)
+        for (int r = 0; r < ROWS; r++)
         {
-            for (int c = 0; c < x; c++)
-                cout << Draw[r][c];
+            for (int c = 0; c < COLS; c++)
+                cout << draw[r][c];
             cout << '\n';
         }
     }
 
-    void Pulisci()
+    void pulisci_terminal()
     {
         //system("clear");    //for linux
         //system("cls");      //for windows
@@ -53,115 +45,112 @@ struct screen
 };
 
 
-void ParolaNascosta()
-{
-    for (int j = 1; parola[j] != '\0'; j++)
-        parolaN[j] = '_';
-
-    for (int i = 'a'; i <= 'z'; i++)
-        if (parola[0] == i) parolaN[0] = i;
-}
-
 inline void upToLow(char& c)
 {
     if (c >= 'A' && c <= 'Z')
         c = c - 'A' + 'a';
 }
 
+void parolaNascosta(string& p, string& pn)
+{
+    for (int i = 0; i < p.size(); i++)  pn += '_';
+
+    pn[0] = p[0];
+}
+
 void inputLettera(char& lettera)
 {
-    cout << "Dimmi una lettera: ";
-    cin >> lettera;
-    upToLow(lettera);
+    do
+    {
+        cout << "Inserisci una lettera: ";
+        cin >> lettera;
+        upToLow(lettera);
+    } while (lettera < 'a' && lettera > 'z');
 }
 
-void checkLettera(screen& sc, char lettera)
+bool checkLettera(screen& sc, char lettera, string& p, string& pn)
 {
     bool ok = false;
-    static int man = 0;
-    const char Tab[6] = {'O', '|', '/', '\\', '/', '\\'};
+    static int bodyCount = 0;
+    const char body[6] = {'O', '|', '/', '\\', '/', '\\'};
 
-    for (int i = 0; parola[i] != '\0'; i++)
+    for (int i = 0; i < p.size(); i++)
     {
-        if (lettera == parola[i])
+        if (lettera == p[i])
         {
+            pn[i] = lettera;
             ok = true;
-            break;
         }
     }
 
-    if (ok)
+    if (!ok)
     {
-        for (int j = 0; parola[j] != '\0'; j++)
-        {
-            if (lettera == parola[j])
-                parolaN[j] = lettera;
-        }
-    }
-    else
-    {
+        bodyCount++;
         cout << "Ops la lettera inserita non è presente nella parola!\n";
-        man++;
 
-		if (man < 3)
-			sc.Draw[man + 2][x - 1] = Tab[man - 1];
-		else if (man == 3)
-			sc.Draw[man][x - 2] = Tab[man - 1];
-		else if (man == 4)
-			sc.Draw[man][x] = Tab[man - 1];
-		else if (man == 5)
-			sc.Draw[man][x - 2] = Tab[man - 1];
-		else if (man == 6)
-			sc.Draw[man][x] = Tab[man - 1];
+        if (bodyCount == 1 || bodyCount == 2)
+            sc.draw[2 + bodyCount - 1][COLS - 2] = body[bodyCount - 1];
+        else if (bodyCount == 3)
+            sc.draw[bodyCount][COLS - 3] = body[bodyCount - 1];
+        else if (bodyCount == 4)
+            sc.draw[bodyCount - 1][COLS - 1] = body[bodyCount - 1];
+        else if (bodyCount == 5)
+            sc.draw[bodyCount - 1][COLS - 3] = body[bodyCount - 1];
+        else if (bodyCount == 6)
+            sc.draw[bodyCount - 2][COLS - 1] = body[bodyCount - 1];
+
+        if (bodyCount >= 6)
+        {
+            sc.pulisci_terminal();
+            sc.disegna();
+            return true;
+        }
+        else   return false;
     }
+    else    return false;
 }
 
-inline void aggiornaParolaNascosta() { cout << parolaN << '\n'; }
-
-void checkWin(bool& win)
+void checkWin(bool& win, string p, string pn)
 {
-    int cnt = 0;
-
-    for (int i = 0; i < 10; i++)
-        if (parola[i] == parolaN[i])    cnt++;
-
-    if (cnt >= 9)
+    if (p.size() == pn.size() && p == pn)
     {
         win = true;
         cout << "Hai vinto!\n";
     }
 }
 
-//MAIN
 int main()
 {
     screen sc;
     bool winCheck = false;
     char lettera;
+    string parola, parolaN;
 
-    do
-    {
-        cout << "Scrivi una parola(al massimo 10 lettere): ";
-        cin >> parola;
-        //cout << '\n';
-    } while (strlen(parola) > 11);
+    cout << "Scrivi una parola: ";
+    cin >> parola;
 
-    for (int i = 0; parola[i] != '\0'; i++)
+    for (int i = 0; i < parola.size(); i++)
         upToLow(parola[i]);
 
-    sc.Pulisci();
+    sc.pulisci_terminal();
 
-    ParolaNascosta();
+    parolaNascosta(parola, parolaN);
 
     do
     {
-        aggiornaParolaNascosta();
-        sc.Disegno();
+        cout << parolaN << '\n';
+
+        sc.disegna();
         inputLettera(lettera);
-        checkLettera(sc, lettera);
-        checkWin(winCheck);
-        sc.Pulisci();
-    } while (!winCheck);
+        if (checkLettera(sc, lettera, parola, parolaN))
+        {
+            cout << "\n\nHai perso!\n";
+            break;
+        }
+        sc.pulisci_terminal();
+        checkWin(winCheck, parola, parolaN);
+    }
+    while (!winCheck);
 
     return 0;
 }
