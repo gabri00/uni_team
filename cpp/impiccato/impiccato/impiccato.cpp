@@ -62,7 +62,7 @@ void ParolaNascosta()
         if (parola[0] == i) parolaN[0] = i;
 }
 
-void upToLow(char& c)
+inline void upToLow(char& c)
 {
     if (c >= 'A' && c <= 'Z')
         c = c - 'A' + 'a';
@@ -102,7 +102,17 @@ void checkLettera(screen& sc, char lettera)
     {
         cout << "Ops la lettera inserita non è presente nella parola!\n";
         man++;
-        sc.Draw[man + 2][x - 1] = Tab[man - 1];
+
+		if (man < 3)
+			sc.Draw[man + 2][x - 1] = Tab[man - 1];
+		else if (man == 3)
+			sc.Draw[man][x - 2] = Tab[man - 1];
+		else if (man == 4)
+			sc.Draw[man][x] = Tab[man - 1];
+		else if (man == 5)
+			sc.Draw[man][x - 2] = Tab[man - 1];
+		else if (man == 6)
+			sc.Draw[man][x] = Tab[man - 1];
     }
 }
 
