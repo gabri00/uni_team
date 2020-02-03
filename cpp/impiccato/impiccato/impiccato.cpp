@@ -1,18 +1,21 @@
-//  Created by Lorenzo Montanaro on 25/01/2020.
-//  Copyright © 2020 Lorenzo Montanaro. All rights reserved.
+//  Created by Lorenzo Montanaro
 
+//upgrades:
+//si potrebbe implementare che la parola inizale sia casuale e non che venga inserita dall'utente
+//una blacklist delle lettere già provate, così da evitare che vengano reinserite
 
 //LIBRERIE
 #include <iostream>
 #include <string>
+//#include <random>     //import for random word
 //#include <stdlib.h>   //import for clear screen functionality
 
-//STANDARD NAMESPACE
 using namespace std;
 
 //MACRO DEFINITION
 #define ROWS    7
 #define COLS    5
+#define MAX_WORDS   20
 
 
 struct screen
@@ -51,7 +54,20 @@ inline void upToLow(char& c)
         c = c - 'A' + 'a';
 }
 
-void parolaNascosta(string& p, string& pn)
+void updateBlacklist()
+{
+
+}
+
+//int randomWord()
+//{
+//    auto rand = std::uniform_int_distribution<int>(1, MAX_WORDS);
+//    std::mt19937 rng = std::mt19937(std::random_device{}());
+//
+//    return rand(rng);
+//}
+
+void parolaNascosta(const string& p, string& pn)
 {
     for (int i = 0; i < p.size(); i++)  pn += '_';
 
@@ -68,7 +84,7 @@ void inputLettera(char& lettera)
     } while (lettera < 'a' && lettera > 'z');
 }
 
-bool checkLettera(screen& sc, char lettera, string& p, string& pn)
+const bool checkLettera(screen& sc, const char lettera, const string& p, string& pn)
 {
     bool ok = false;
     static int bodyCount = 0;
@@ -110,7 +126,7 @@ bool checkLettera(screen& sc, char lettera, string& p, string& pn)
     else    return false;
 }
 
-void checkWin(bool& win, string p, string pn)
+void checkWin(bool& win, const string p, const string pn)
 {
     if (p.size() == pn.size() && p == pn)
     {
