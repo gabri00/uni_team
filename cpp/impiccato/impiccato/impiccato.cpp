@@ -54,9 +54,9 @@ inline void upToLow(char& c)
         c = c - 'A' + 'a';
 }
 
-void updateBlacklist()
+inline void updateBlacklist(const char lettera, string* blacklist)
 {
-
+    *blacklist += lettera;
 }
 
 //int randomWord()
@@ -74,7 +74,7 @@ void parolaNascosta(const string& p, string& pn)
     pn[0] = p[0];
 }
 
-void inputLettera(char& lettera)
+void inputLettera(char& lettera, string* blacklist)
 {
     do
     {
@@ -82,6 +82,8 @@ void inputLettera(char& lettera)
         cin >> lettera;
         upToLow(lettera);
     } while (lettera < 'a' && lettera > 'z');
+
+    updateBlacklist(lettera, blacklist);
 }
 
 const bool checkLettera(screen& sc, const char lettera, const string& p, string& pn)
@@ -135,12 +137,18 @@ void checkWin(bool& win, const string p, const string pn)
     }
 }
 
+inline void printBlacklist(const string blacklist)
+{
+    cout << blacklist << '\n';
+}
+
 int main()
 {
     screen sc;
     bool winCheck = false;
     char lettera;
     string parola, parolaN;
+    string blacklist;
 
     cout << "Scrivi una parola: ";
     cin >> parola;
@@ -155,9 +163,9 @@ int main()
     do
     {
         cout << parolaN << '\n';
-
+        printBlacklist(blacklist);
         sc.disegna();
-        inputLettera(lettera);
+        inputLettera(lettera, &blacklist);
         if (checkLettera(sc, lettera, parola, parolaN))
         {
             cout << "\n\nHai perso!\n";
